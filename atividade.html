@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grãos & Risos - Lab de Funções</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ==========================================
+           PALETA DE CORES - GRÃOS & RISOS CAFETERIA
+           ========================================== */
+        :root {
+            --main-color: #be9c79;    /* Café com leite / Dourado rústico */
+            --coffee-dark: #13131a;   /* Grão torrado / Quase preto */
+            --bg-cream: #fdfaf6;      /* Fundo suave / Creme */
+            --text-dark: #333333;
+            --text-light: #ffffff;
+            --card-white: #ffffff;
+        }
+
+        * {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            transition: all 0.2s linear;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+            padding: 0 0 6rem 0;
+        }
+
+        /* ==========================================
+           HEADER (MENU DA CAFETERIA)
+           ========================================== */
+        .header {
+            background: var(--coffee-dark);
+            padding: 2rem 7%;
+            text-align: center;
+            box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.15);
+            margin-bottom: 4rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--text-light);
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .header h1 span {
+            color: var(--main-color);
+        }
+
+        .header p {
+            color: #b0b0b5;
+            font-size: 1.1rem;
+            font-weight: 300;
+            margin-top: 5px;
+        }
+
+        /* ==========================================
+           CONTAINER E GRID (ESTILO MENU)
+           ========================================== */
+        .menu-container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(32rem, 1fr));
+            gap: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* CARD DO CARDÁPIO DE FUNÇÕES */
+        .menu-box {
+            background: var(--card-white);
+            padding: 3rem;
+            text-align: center;
+            border-radius: 1rem;
+            box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.02);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-box:hover {
+            transform: scale(1.02);
+            box-shadow: 0 1rem 2rem rgba(190, 156, 121, 0.15);
+            border-color: var(--main-color);
+        }
+
+        .menu-box h3 {
+            color: var(--coffee-dark);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .menu-box h3 span {
+            color: var(--main-color);
+        }
+
+        .menu-box .description {
+            font-size: 1.1rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            min-height: 50px;
+        }
+
+        /* INPUTS ESTILIZADOS */
+        .inputs-group {
+            margin-bottom: 2rem;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .input-block {
+            flex: 1;
+            min-width: 60px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--main-color);
+            margin-bottom: 0.4rem;
+            text-align: left;
+        }
+
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-cream);
+            border: 1px solid #e0dacb;
+            border-radius: 0.5rem;
+            font-size: 1.2rem;
+            color: var(--coffee-dark);
+            text-align: center;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--main-color);
+            background: #fff;
+        }
+
+        /* BOTÕES ESTILO CAFETERIA */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            flex: 1;
+            display: inline-block;
+            padding: 1rem 1.5rem;
+            font-size: 1.3rem;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            border: none;
+        }
+
+        .btn-order {
+            color: var(--text-light);
+            background: var(--main-color);
+        }
+
+        .btn-order:hover {
+            letter-spacing: 0.1rem;
+            background: #a3815f;
+        }
+
+        .btn-dialog {
+            background: transparent;
+            border: 1px solid var(--main-color);
+            color: var(--main-color);
+        }
+
+        .btn-dialog:hover {
+            background: rgba(190, 156, 121, 0.1);
+        }
+
+        /* QUADRO DE RECEITAS / RESULTADOS */
+        .recipe-output {
+            background: #fdfbf7;
+            border: 1px dashed var(--main-color);
+            border-radius: 0.5rem;
+            padding: 1.2rem;
+            font-size: 1.2rem;
+            color: #5d4037;
+            text-align: left;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            white-space: pre-line;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>Grãos & Risos <span>// Lab de Funções</span></h1>
+        <p>Selecione um item do menu e escolha o método de preparo (Formulário ou Prompt nativo)</p>
+    </header>
+
+    <div class="menu-container">
+        <div class="grid">
+
+            <div class="menu-box">
+                <div>
+                    <h3>Combo <span>Maior & Menor</span></h3>
+                    <p class="description">Analisa uma sequência de 5 grãos numéricos e extrai as torras extremas.</p>
+                    <div class="inputs-group">
+                        <label>Insira 5 Inteiros</label>
+                        <div class="input-row">
+                            <div class="input-block"><input type="number" id="f1_a" value="12"></div>
+                            <div class="input-block"><input type="number" id="f1_b" value="45"></div>
+                            <div class="input-block"><input type="number" id="f1_c" value="7"></div>
+                            <div class="input-block"><input type="number" id="f1_d" value="23"></div>
+                            <div class="input-block"><input type="number" id="f1_e" value="19"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="btn-group">
+                        <button class="btn btn-order" onclick="uiMaiorMenor(false)">No Balcão (HTML)</button>
+                        <button class="btn btn-dialog" onclick="uiMaiorMenor(true)">Prompt</button>
+                    </div>
+                    <div class="recipe-output" id="out_1">Café aguardando pedido...</div>
+                </div>
+            </div>
+
+            <div class="menu-box">
+                <div>
+                    <h3>Análise <span>Vogal</span></h3>
+                    <p class="description">Verifica se um caractere é uma vogal refinada. Retorna 1 se sim, 0 se não.</p>
+                    <div class="inputs-group">
+                        <label>Insira um Caractere</label>
+                        <input type="text" id="f2_c" maxlength="1" value="O" style="width: 80px;">
+                    </div>
+                </div>
+                <div>
+                    <div class="btn-group">
+                        <button class="btn btn-order" onclick="uiVogal(false)">No Balcão (HTML)</button>
+                        <button class="btn btn-dialog" onclick="uiVogal(true)">Prompt</button>
+                    </div>
+                    <div class="recipe-output" id="out_2">Café aguardando pedido...</div>
+                </div>
+            </div>
+
+            <div class="menu-box">
+                <div>
+                    <h3>Filtro de <span>Limites</span></h3>
+                    <p class="description">Entrega os grãos pares em um intervalo aberto e calcula o seu blend (somatório).</p>
+                    <div class="inputs-group">
+                        <div class="input-row">
+                            <div class="input-block">
+                                <label>Inferior (li)</label>
+                                <input type="number" id="f3_li" value="5">
+                            </div>
+                            <div class="input-block">
+                                <label>Superior (ls)</label>
+                                <input type="number" id="f3_ls" value="15">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="btn-group">
+                        <button class="btn btn-order" onclick="uiLimites(false)">No Balcão (HTML)</button>
+                        <button class="btn btn-dialog" onclick="uiLimites(true)">Prompt</button>
+                    </div>
+                    <div class="recipe-output" id="out_3">Café aguardando pedido...</div>
+                </div>
+            </div>
+
+            <div class="menu-box">
+                <div>
+                    <h3>Grãos em <span>Ordem</span></h3>
+                    <p class="description">Organiza três valores desordenados em uma fila crescente impecável.</p>
+                    <div class="inputs-group">
+                        <label>Insira 3 Inteiros</label>
+                        <div class="input-row">
+                            <div class="input-block"><input type="number" id="f4_a" value="85"></div>
+                            <div class="input-block"><input type="number" id="f4_b" value="10"></div>
+                            <div class="input-block"><input type="number" id="f4_c" value="42"></div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="btn-group">
+                        <button class="btn btn-order" onclick="uiOrdem(false)">No Balcão (HTML)</button>
+                        <button class="btn btn-dialog" onclick="uiOrdem(true)">Prompt</button>
+                    </div>
+                    <div class="recipe-output" id="out_4">Café aguardando pedido...</div>
+                </div>
+            </div>
+
+            <div class="menu-box">
+                <div>
+                    <h3>Balanço <span>Positivo / Negativo</span></h3>
+                    <p class="description">Validação booleana instantânea da temperatura ou saldo do valor inserido.</p>
+                    <div class="inputs-group">
+                        <label>Insira um Valor</label>
+                        <input type="number" id="f5_x" value="-4">
+                    </div>
+                </div>
+                <div>
+                    <div class="btn-group">
+                        <button class="btn btn-order" onclick="uiPosNeg(false)">No Balcão (HTML)</button>
+                        <button class="btn btn-dialog" onclick="uiPosNeg(true)">Prompt</button>
+                    </div>
+                    <div class="recipe-output" id="out_5">Café aguardando pedido...</div>
+                </div>
+            </div>
+
+            <div class="menu-box">
+                <div>
+                    <h3>Paridade <span>Par ou Ímpar</span></h3>
+                    <p class="description">Divide o grão por dois e retorna se o resultado é simetricamente par (true/false).</p>
+                    <div class="inputs-group">
+                        <label>Insira um Valor</label>
+                        <input type="number" id="f6_x" value="18">
+                    </div>
+                </div>
+                <div>
+                    <div class="btn-group">
+                        <button class="btn btn-order" onclick="uiParImpar(false)">No Balcão (HTML)</button>
+                        <button class="btn btn-dialog" onclick="uiParImpar(true)">Prompt / Confirm</button>
+                    </div>
+                    <div class="recipe-output" id="out_6">Café aguardando pedido...</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    
+</body>
+<script src="script.js"></script>
+</html>
